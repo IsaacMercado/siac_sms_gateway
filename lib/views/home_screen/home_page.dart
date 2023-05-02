@@ -1,9 +1,5 @@
-import 'dart:async';
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:telephony/telephony.dart';
-import 'package:http/http.dart' as http;
+import '../login_screen/login_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -22,8 +18,8 @@ class HomePage extends StatelessWidget {
           ]),
         ),
         child: Column(
-          children: const <Widget>[
-            Hero(
+          children: <Widget>[
+            const Hero(
               tag: 'hero',
               child: Padding(
                 padding: EdgeInsets.all(16.0),
@@ -34,20 +30,29 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
                 'Welcome Alucard',
                 style: TextStyle(fontSize: 28.0, color: Colors.white),
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
                 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec hendrerit condimentum mauris id tempor. Praesent eu commodo lacus. Praesent eget mi sed libero eleifend tempor. Sed at fringilla ipsum. Duis malesuada feugiat urna vitae convallis. Aliquam eu libero arcu.',
                 style: TextStyle(fontSize: 16.0, color: Colors.white),
               ),
-            )
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed(LoginForm.tag);
+                },
+                child: const Text('Back'),
+              ),
+            ),
           ],
         ),
       ),

@@ -3,12 +3,13 @@
     package="com.example.siac_sms_gateway"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_SMS"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-sdk tools:overrideLibrary="com.shounakmulay.telephony"/>
 
     <application
-        android:label="siac_sms_gateway"
+        android:label="SIAC SMS Gateway"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

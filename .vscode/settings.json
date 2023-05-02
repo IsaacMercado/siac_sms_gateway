@@ -1,3 +1,4 @@
 {
-    "cmake.sourceDirectory": "/home/isaac/proyects/siac_sms_gateway/linux"
+    "cmake.sourceDirectory": "/home/isaac/proyects/siac_sms_gateway/linux",
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

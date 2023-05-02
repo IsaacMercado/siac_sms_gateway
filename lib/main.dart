@@ -1,12 +1,14 @@
-import 'dart:async';
+import 'dart:io';
 import 'dart:convert';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:telephony/telephony.dart';
 import 'package:http/http.dart' as http;
 
-import 'login_page.dart';
-import 'home_page.dart';
+import 'views/login_screen/login_page.dart';
+import 'views/home_screen/home_page.dart';
+import 'utils/constants.dart';
 
 Future<http.Response> sendSmsData(SmsMessage message) async {
   String body = jsonEncode(<String, dynamic>{
@@ -20,8 +22,7 @@ Future<http.Response> sendSmsData(SmsMessage message) async {
   });
   debugPrint(body);
   return http.post(
-    Uri.parse(
-        "https://4b77-186-185-176-140.ngrok-free.app/deposits/create/from_sms/"),
+    Uri.parse("$host/deposits/create/from_sms/"),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -56,12 +57,16 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          primary: const Color.fromRGBO(243, 122, 9, 1),
+          // secondary: const Color(0xFFFFC107),
+        ),
+        // primarySwatch: Colors.blue,
         fontFamily: 'Nunito',
       ),
-      home: const LoginPage(),
+      home: const LoginForm(),
       routes: <String, WidgetBuilder>{
-        LoginPage.tag: (context) => const LoginPage(),
+        LoginForm.tag: (context) => const LoginForm(),
         HomePage.tag: (context) => const HomePage(),
       },
     );
@@ -93,9 +98,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    // if (Platform.isAndroid) {
-    initPlatformState();
-    // }
+    if (Platform.isAndroid) {
+      initPlatformState();
+    }
   }
 
   onMessage(SmsMessage message) async {
