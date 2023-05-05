@@ -25,6 +25,7 @@ Future<User> fetchUser(FlutterSecureStorage? storage) async {
       'Authorization': 'Bearer ${token.accessToken}',
     },
   );
+
   if (response.statusCode == 200) {
     return User.fromJson(jsonDecode(response.body));
   } else {

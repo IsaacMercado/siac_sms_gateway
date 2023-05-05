@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class User {
@@ -49,6 +50,13 @@ class User {
         birthday == null ||
         affiliatedPhoneNumber == null ||
         alternativePhoneNumber == null) {
+          debugPrint(username.toString());
+          debugPrint(firstName.toString());
+          debugPrint(lastName.toString());
+          debugPrint(personId.toString());
+          debugPrint(birthday.toString());
+          debugPrint(affiliatedPhoneNumber.toString());
+          debugPrint(alternativePhoneNumber.toString());
       throw Exception('Failed to load user from storage');
     }
 

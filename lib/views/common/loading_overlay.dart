@@ -5,8 +5,8 @@ class LoadingOverlay extends StatefulWidget {
 
   const LoadingOverlay({Key? key, required this.child}) : super(key: key);
 
-  static _LoadingOverlayState of(BuildContext context) {
-    return context.findAncestorStateOfType<_LoadingOverlayState>()!;
+  static _LoadingOverlayState? of(BuildContext context) {
+    return context.findAncestorStateOfType<_LoadingOverlayState>();
   }
 
   @override

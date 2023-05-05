@@ -31,8 +31,7 @@ class MyApp extends StatelessWidget {
       home: const LoginForm(),
       routes: <String, WidgetBuilder>{
         LoginForm.tag: (context) => const LoginForm(),
-        HomePage.tag: (context) =>
-            const HomePage(onBackgroundMessage: onBackgroundMessage),
+        HomePage.tag: (context) => const HomePage(onBackgroundMessage: onBackgroundMessage),
       },
     );
   }
