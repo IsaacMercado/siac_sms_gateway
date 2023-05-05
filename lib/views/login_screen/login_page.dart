@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:siac_sms_gateway/models/token.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:telephony/telephony.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../utils/constants.dart';
 import '../../services/login.dart';
+import '../../services/user.dart';
 import '../home_screen/home_page.dart';
 
 class LoginForm extends StatefulWidget {
@@ -17,8 +19,10 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
-  Token _token = Token();
   final Telephony telephony = Telephony.instance;
+  final storage = const FlutterSecureStorage();
+
+  Token _token = Token();
 
   void _submitForm() async {
     final email = _token.email;
@@ -31,9 +35,30 @@ class _LoginFormState extends State<LoginForm> {
       try {
         final token = await fetchToken(email, password);
         if (token.accessToken != null) {
+          await storage.write(key: 'accessToken', value: token.accessToken);
+          await storage.write(key: 'refreshToken', value: token.refreshToken);
+
           await Future.delayed(const Duration(seconds: 1));
           if (!context.mounted) return;
           Navigator.of(context).pushNamed(HomePage.tag);
+
+          try {
+            final user = await fetchUser(storage);
+
+            await storage.write(key: 'username', value: user.username);
+            await storage.write(key: 'firstName', value: user.firstName);
+            await storage.write(key: 'lastName', value: user.lastName);
+            await storage.write(key: 'personId', value: user.personId);
+            await storage.write(key: 'birthday', value: user.birthday);
+            await storage.write(
+                key: 'affiliatedPhoneNumber',
+                value: user.affiliatedPhoneNumber);
+            await storage.write(
+                key: 'alternativePhoneNumber',
+                value: user.alternativePhoneNumber);
+          } catch (error) {
+            debugPrint(error.toString());
+          }
         } else {
           setState(() {
             _token = token;
@@ -43,27 +68,6 @@ class _LoginFormState extends State<LoginForm> {
         debugPrint(error.toString());
       }
     }
-  }
-
-  Future<void> initPlatformState() async {
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-
-    final bool? result = await telephony.requestPhoneAndSmsPermissions;
-
-    if (result != null && result) {
-      debugPrint("Granted");
-      String? networkOperator = await telephony.networkOperator;
-      String? operatorName = await telephony.networkOperatorName;
-      String? simOperator = await telephony.simOperator;
-      String? simOperatorName = await telephony.simOperatorName;
-      debugPrint(
-          "Operator name: $operatorName, $simOperator, $simOperatorName, $networkOperator");
-    }
-
-    if (!mounted) return;
   }
 
   @override
@@ -164,9 +168,7 @@ class _LoginFormState extends State<LoginForm> {
                   style: TextStyle(color: Colors.black54),
                 ),
                 onPressed: () {
-                  // _launchUrl();
-                  debugPrint("Hola mundo");
-                  initPlatformState();
+                  _launchUrl();
                 },
               )
             ],

@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-
 import '../utils/constants.dart';
 import '../models/token.dart';
 
@@ -18,7 +17,7 @@ Future<Token> fetchToken(String email, String password) async {
     }),
   );
 
-  if (response.statusCode == 200 || response.statusCode == 400) {
+  if ([200, 400, 401].contains(response.statusCode)) {
     return Token.fromJson(jsonDecode(response.body));
   } else {
     throw Exception('Failed to load token');

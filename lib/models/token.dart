@@ -33,4 +33,5 @@ class Token {
 
     return token;
   }
+
 }
